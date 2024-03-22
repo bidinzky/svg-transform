@@ -275,6 +275,64 @@ function scaleAndShiftPathData(
 }
 
 /**
+ * transform path elements
+ */
+
+function transformPath(path, options) {
+    // merge custom parameters with defaults
+    options = {
+        ...{
+            scaleX: 1,
+            scaleY: 1,
+            translateX: 0,
+            translateY: 0,
+            skewX: 0,
+            skewY: 0,
+            rotate: 0,
+            matrix: [1, 0, 0, 1, 0, 0],
+            decimals: 3,
+            toRelative: true,
+            toShorthands: true,
+            transfomOrigin: "center"
+        },
+        ...options
+    };
+
+    let { scaleX, scaleY, translateX, translateY, skewX, skewY, rotate,
+        matrix, transfomOrigin,
+        decimals
+    } = options;
+
+    if (transfomOrigin == "center") {
+        let bb = path.getBBox();
+        translateX += bb.x + bb.width / 2;
+        translateY += bb.y + bb.height / 2;
+    }
+
+    if (matrix.join("") === "100100") {
+        matrix = new DOMMatrix()
+            .translate(translateX, translateY)
+            .rotate(rotate)
+            .scale(scaleX, scaleY)
+            .skewX(skewX)
+            .skewY(skewY)
+            .translate(translateX * -1, translateY * -1);
+    }
+
+
+    let pathData = getPathDataFromEl(path);
+    pathData = transformPathData(pathData, matrix, decimals);
+
+    //optimize output
+    pathData = convertPathData(pathData, options);
+    path.setAttribute("d", pathDataToD(pathData, decimals, true));
+
+    return { pathData: pathData, matrix: matrix };
+}
+
+
+
+/**
  * scale pathData
  */
 function transformPathData(pathData, matrix, decimals = 3) {
@@ -912,8 +970,6 @@ function getPathDataFromEl(el) {
         return atts
     }
 
-
-
     switch (type) {
         case 'path':
             d = el.getAttribute("d");
@@ -1239,6 +1295,7 @@ function pathDataToD(pathData, decimals = -1, minify = false) {
             .replaceAll(" 0.", " .")
             .replaceAll(" -", "-")
             .replaceAll("-0.", "-.")
+            .replaceAll(" .", ".")
             .replaceAll("Z", "z");
     }
     return d;
@@ -1253,7 +1310,7 @@ function pathDataToD(pathData, decimals = -1, minify = false) {
  * returns pathData array
 */
 
-function pathDataArcToCubic(pathData, arcAccuracy) {
+function pathDataArcToCubic(pathData, arcAccuracy = 1) {
     let pathDataAbs = []
     pathData.forEach((com, i) => {
         let { type, values } = com;
@@ -1273,8 +1330,6 @@ function pathDataArcToCubic(pathData, arcAccuracy) {
         }
 
     })
-
-    //console.log('arc',pathDataAbs);
     return pathDataAbs
 }
 
