@@ -1,3 +1,3 @@
 declare function SvgToPath(svg: SVGSVGElement): string;
 
-export { SvgToPath };
+export { SvgToPath, SvgToPath as default };

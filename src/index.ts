@@ -19,3 +19,5 @@ export function SvgToPath(svg: SVGSVGElement) {
 
     return result;
 }
+globalThis["SvgToPath"] = SvgToPath;
+export default SvgToPath;
