@@ -1,4 +1,4 @@
-import { flattenSVGTransformations } from "./flatten";
+import { flattenSVGTransformations } from "./flatten/index";
 
 export function SvgToPath(svg: SVGSVGElement) {
     const copy = svg.cloneNode(true) as SVGSVGElement;
@@ -16,6 +16,6 @@ export function SvgToPath(svg: SVGSVGElement) {
             result += node.getAttribute("d");
         }
     }
-    
+
     return result;
 }
