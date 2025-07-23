@@ -4,12 +4,7 @@ import type { PathData } from "./type";
  * serialize pathData array to
  * d attribute string
  */
-export function serializePathData(pathData: PathData, decimals = -1, minify = false) {
-    // implicit l command
-    if (pathData[1].type === "l" && minify) {
-        pathData[0].type = "m";
-    }
-
+export function serializePathData(pathData: PathData, decimals = -1) {
     let d = `${pathData[0].type}${pathData[0].values.map(val => { return +val.toFixed(decimals) }).join(" ")}`;
 
     for (let i = 1; i < pathData.length; i++) {
@@ -39,25 +34,9 @@ export function serializePathData(pathData: PathData, decimals = -1, minify = fa
         }
 
         // omit type for repeated commands
-        type = com0.type === com.type && com.type.toLowerCase() != "m" && minify
-            ? " "
-            : ((com0.type === "m" && com.type === "l") ||
-                (com0.type === "M" && com.type === "l") ||
-                (com0.type === "M" && com.type === "L")) &&
-                minify
-                ? " "
-                : com.type;
+        type = com.type;
 
         d += `${type}${values.join(" ")}`;
-    }
-
-    if (minify) {
-        d = d
-            .replaceAll(" 0.", " .")
-            .replaceAll(" -", "-")
-            .replaceAll("-0.", "-.")
-            .replaceAll(" .", ".")
-            .replaceAll("Z", "z");
     }
     return d;
 }
