@@ -2,7 +2,8 @@
   "name": "svg-transform",
   "version": "0.0.1",
   "description": "A library to transform or de-transform/flatten svg paths",
-  "main": "src/index.ts",
+  "main": "dist/index.ts",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
