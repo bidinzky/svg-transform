@@ -1,7 +1,7 @@
 {
-  "name": "svg-transform",
+  "name": "svg-to-path",
   "version": "0.0.1",
-  "description": "A library to transform or de-transform/flatten svg paths",
+  "description": "A library to convert a svg to a single concatinated path",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
