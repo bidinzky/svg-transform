@@ -1,6 +1,4 @@
 # svg-transform
-A library to transform or de-transform/flatten svg paths
+A library to transform a svg to a simple concatinated path.
 
-## Demos
-*[Path transformations overview](https://codepen.io/herrstrietzel/pen/bGJqXqE)   
-*[Transform or flatten SVG paths](https://codepen.io/herrstrietzel/pen/OJGmVzj?editors=1010)
+Heavily based on (https://github.com/herrstrietzel/svg-transform)[https://github.com/herrstrietzel/svg-transform]
