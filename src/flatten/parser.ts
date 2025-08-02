@@ -7,7 +7,7 @@
  */
 
 import { PathData } from "./type";
-
+export type {PathData} from "./type";
 export function parsePathDataNormalized(d: string) {
     d = d
         // remove new lines, tabs an comma with whitespace
