@@ -16,17 +16,22 @@ export function SvgToPath(svg: SVGSVGElement) {
 
         if (node instanceof SVGGeometryElement) {
             let d = node.getAttribute("d");
-            if(d?.endsWith("Z") || d?.endsWith("z")) {
-                const path = parsePathDataNormalized(d);
+            if(d) {
+                let path = parsePathDataNormalized(d);
                 const nonMoveIndex = path.findIndex(e => e.type !== "M" && e.type !== "m");
                 const values = getEndPos(path.slice(0,nonMoveIndex));
-                path[path.length-1] = {
-                    type: "L",
-                    values
-                };
+                path = path.map(e => {
+                    if(e.type === "Z" || e.type === "z") {
+                        return {
+                            type: "L",
+                            values
+                        }
+                    }
+                    return e;
+                });
                 d = serializePathData(path);
+                result += d;
             }
-            result += d;
         }
     }
     return result;

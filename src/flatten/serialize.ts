@@ -4,7 +4,7 @@ import type { PathData } from "./type";
  * serialize pathData array to
  * d attribute string
  */
-export function serializePathData(pathData: PathData, decimals = -1) {
+export function serializePathData(pathData: PathData, decimals = 3) {
     let d = `${pathData[0].type}${pathData[0].values.map(val => { return +val.toFixed(decimals) }).join(" ")}`;
 
     for (let i = 1; i < pathData.length; i++) {
